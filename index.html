@@ -74,7 +74,7 @@
       display: flex;
       justify-content: center;
       gap: 56px;
-      padding: 24px 0 40px;
+      padding: 24px 0 0;
     }
 
     .meta-item {
@@ -269,7 +269,8 @@
       text-transform: uppercase;
       letter-spacing: .1em;
       color: var(--muted);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      text-align: center;
     }
 
     .cards-grid {
@@ -479,11 +480,10 @@
 
     .footer-inner {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       gap: 16px;
       flex-wrap: wrap;
-      text-align: center;
     }
 
     .footer-inner p {
@@ -502,18 +502,40 @@
     .footer-inner a:hover { color: var(--accent); }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .wrap { padding: 0 24px; }
+    }
+
     @media (max-width: 640px) {
       .wrap { padding: 0 20px; }
 
       header { padding: 48px 0 0; }
 
+      .header-eyebrow { font-size: .65rem; letter-spacing: .14em; }
+      .header-sub { font-size: .82rem; }
+      .header-rule { margin-top: 32px; }
+
       .header-meta {
-        gap: 32px;
+        gap: 28px;
         flex-wrap: wrap;
+        padding: 24px 0 0;
       }
+
+      .meta-num { font-size: 1.6rem; }
+      .meta-label { font-size: .62rem; }
+
+      .section { padding: 36px 0; }
+
+      .section-title { font-size: 1.5rem; }
 
       .pcard-top { min-height: 0; }
       .pcard { padding: 22px; }
+
+      .cards-grid { gap: 14px; }
+
+      .context-grid { gap: 28px; }
+
+      .table-note { font-size: .7rem; }
 
       th:nth-child(4),
       td:nth-child(4),
