@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parques de Campismo · Costa Alentejana 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #f8f6f1;
+      --white:   #ffffff;
+      --border:  #e0d8cc;
+      --text:    #1c1a17;
+      --muted:   #8a8278;
+      --accent:  #7a6248;
+      --highlight: #f2ede4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 72px 0 0;
+      background: var(--bg);
+      text-align: center;
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .header-eyebrow {
+      font-size: .7rem;
+      color: var(--muted);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .header-left h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.05;
+      letter-spacing: .01em;
+      margin: 0 auto;
+    }
+
+    .header-sub {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: 14px;
+      letter-spacing: .02em;
+    }
+
+    .header-rule {
+      height: 1px;
+      background: var(--border);
+      margin: 40px auto 0;
+    }
+
+    .header-meta {
+      display: flex;
+      justify-content: center;
+      gap: 56px;
+      padding: 24px 0 40px;
+    }
+
+    .meta-item {
+      text-align: center;
+    }
+
+    .meta-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.9rem;
+      font-weight: 400;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: .02em;
+    }
+
+    .meta-label {
+      font-size: .68rem;
+      color: var(--muted);
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ── TABLE ── */
+    .section {
+      padding: 48px 0;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--white);
+    }
+
+    .table-note {
+      font-size: .72rem;
+      color: var(--muted);
+      margin-top: 14px;
+      font-style: italic;
+      line-height: 1.5;
+      text-align: center;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+      font-size: .875rem;
+    }
+
+    thead tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      padding: 12px 16px;
+      font-size: .68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      color: var(--muted);
+      text-align: center;
+      white-space: normal;
+      background: var(--bg);
+      line-height: 1.3;
+    }
+
+    th:first-child { text-align: left; }
+
+    td {
+      padding: 14px 16px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--highlight);
+      vertical-align: middle;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    td:first-child { text-align: left; }
+
+    tr:last-child td { border-bottom: none; }
+
+    tbody tr { transition: background .12s; }
+    tbody tr:hover { background: var(--highlight); }
+
+    /* best row */
+    tr.best td { background: var(--highlight); }
+    tr.best:hover td { background: #ede5d8; }
+
+    /* dim rows */
+    tr.dim td { opacity: .45; }
+
+    /* park name cell */
+    .park-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--white);
+      font-size: .65rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .rank-dash {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .65rem;
+      flex-shrink: 0;
+    }
+
+    .price {
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    /* status dots */
+    .dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .78rem;
+    }
+
+    .dot::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-ok::before   { background: #8aaa88; }
+    .dot-wait::before { background: #c8b89a; }
+
+    /* link buttons */
+    .links { display: flex; gap: 6px; }
+
+    .lnk {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 26px;
+      padding: 0 9px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      color: var(--muted);
+      text-decoration: none;
+      background: var(--white);
+      white-space: nowrap;
+      transition: border-color .15s, color .15s;
+    }
+
+    .lnk:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── PARK CARDS ── */
+    .cards-section {
+      padding: 0 0 52px;
+    }
+
+    .cards-label {
+      font-size: .68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .pcard {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px;
+    }
+
+    .pcard.pcard-best {
+      border-color: var(--accent);
+    }
+
+    .pcard-top {
+      min-height: 130px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pcard-top-row1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .pcard-top-row2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: .01em;
+      margin-top: auto;
+    }
+
+    .pcard-rank {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .pcard-rank-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--white);
+      font-size: .62rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .pcard-rank-num.outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .pcard-name {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .pcard-price {
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      letter-spacing: .01em;
+      font-size: 1.5rem;
+      color: var(--accent);
+      text-align: right;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .pcard-price-label {
+      font-size: .65rem;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .pcard-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 0 16px;
+    }
+
+    .pcard-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pcard-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      font-size: .78rem;
+    }
+
+    .pcard-row-label {
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .pcard-row-val {
+      color: var(--text);
+      font-weight: 500;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .pcard-note {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: .72rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .pcard-footer {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .pcard-lnk {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: border-color .15s, color .15s;
+    }
+
+    .pcard-lnk:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── CONTEXT ── */
+    .context {
+      padding: 40px 0 56px;
+      border-top: 1px solid var(--border);
+    }
+
+    .context-label {
+      font-size: .68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .context-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .ctx {
+      border-left: 2px solid var(--border);
+      padding-left: 16px;
+    }
+
+    .ctx-title {
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .ctx-body {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .footer-inner p {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    .footer-inner a {
+      font-size: .75rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color .15s;
+    }
+
+    .footer-inner a:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .wrap { padding: 0 20px; }
+
+      header { padding: 48px 0 0; }
+
+      .header-meta {
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+
+      .pcard-top { min-height: 0; }
+      .pcard { padding: 22px; }
+
+      th:nth-child(4),
+      td:nth-child(4),
+      th:nth-child(5),
+      td:nth-child(5),
+      th:nth-child(7),
+      td:nth-child(7) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="wrap">
+      <div class="header-eyebrow">Costa Alentejana · Agosto + Setembro 2026</div>
+      <div class="header-left">
+        <h1>Campismo Costa Alentejana</h1>
+        <p class="header-sub">Longa duração · Caravana com eletricidade</p>
+      </div>
+      <div class="header-rule"></div>
+      <div class="header-meta">
+        <div class="meta-item">
+          <div class="meta-num">792€</div>
+          <div class="meta-label">Melhor preço</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">3/7</div>
+          <div class="meta-label">Responderam</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">2+2</div>
+          <div class="meta-label">Adultos + crianças</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TABLE -->
+  <section class="section">
+    <div class="wrap">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+                    <th>Parque</th>
+                    <th>Estado</th>
+                    <th>Caravana +<br>Elétric.</th>
+                    <th>Adulto<br>/ dia</th>
+                    <th>Criança<br>/ dia</th>
+                    <th>Piscina</th>
+                    <th>Longa<br>duração</th>
+                    <th>Links</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr class="best">
+              <td>
+                <div class="park-name">
+                  <span class="rank">01</span>
+                  Villa Park Zambujeira
+                </div>
+              </td>
+              <td><span class="dot dot-ok">Respondido</span></td>
+              <td><span class="price">792,35 €</span></td>
+              <td>8,80 / 6,95 €</td>
+              <td>4,95 / 4,10 €</td>
+              <td>Incluída</td>
+              <td>Não</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://www.campingzambujeira.com" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=37.525589,-8.775672" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="park-name">
+                  <span class="rank">02</span>
+                  Porto Covo
+                </div>
+              </td>
+              <td><span class="dot dot-ok">Respondido</span></td>
+              <td><span class="price">973,90 €</span></td>
+              <td>6,00 / 5,60 €</td>
+              <td>4,10 €</td>
+              <td>Paga</td>
+              <td>Não</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://www.campingportocovo.pt" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=37.852778,-8.787539" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="park-name">
+                  <span class="rank-dash">—</span>
+                  Costa do Vizir Beach Village
+                </div>
+              </td>
+              <td><span class="dot dot-ok">Respondido</span></td>
+              <td>A confirmar</td>
+              <td>A confirmar</td>
+              <td>A confirmar</td>
+              <td>Incluída</td>
+              <td>Não</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://costadovizir.com" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Costa+do+Vizir+Beach+Village+Porto+Covo" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="dim">
+              <td><div class="park-name"><span class="rank-dash">—</span>Ilha do Pessegueiro Camping</div></td>
+              <td><span class="dot dot-wait">Pendente</span></td>
+              <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://www.google.com/search?q=Parque+Campismo+Ilha+do+Pessegueiro+Porto+Covo" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Parque+Campismo+Ilha+do+Pessegueiro+Porto+Covo" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="dim">
+              <td><div class="park-name"><span class="rank-dash">—</span>Camping São Miguel</div></td>
+              <td><span class="dot dot-wait">Pendente</span></td>
+              <td>—</td><td>—</td><td>—</td><td>Não</td><td>—</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://www.campingsaomiguel.com" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Parque+Campismo+São+Miguel+São+Teotónio" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="dim">
+              <td><div class="park-name"><span class="rank-dash">—</span>Parque de Campismo de Melides</div></td>
+              <td><span class="dot dot-wait">Pendente</span></td>
+              <td>—</td><td>—</td><td>—</td><td>Incluída</td><td>—</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://www.google.com/search?q=Parque+Campismo+Melides+CCL" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Parque+Campismo+Melides" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+            <tr class="dim">
+              <td><div class="park-name"><span class="rank-dash">—</span>Orbitur Sitava Milfontes</div></td>
+              <td><span class="dot dot-wait">Pendente</span></td>
+              <td>—</td><td>—</td><td>—</td><td>Incluída</td><td>—</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://www.orbitur.pt/destinos/alentejo/orbitur-sitava-milfontes/" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Orbitur+Sitava+Milfontes" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">Preços indicativos com base na tabela de preços de cada parque. O valor de caravana + eletricidade não inclui a tarifa diária por adulto e criança. Valores podem variar consoante a época e condições específicas.</p>
+    </div>
+  </section>
+
+  <!-- PARK CARDS -->
+  <section class="cards-section">
+    <div class="wrap">
+      <div class="cards-label">Detalhe — parques respondidos</div>
+      <div class="cards-grid">
+
+        <div class="pcard pcard-best">
+          <div class="pcard-top">
+            <div class="pcard-top-row1">
+              <div class="pcard-rank"><span class="pcard-rank-num">01</span> Melhor preço</div>
+              <div>
+                <div class="pcard-price">792,35 €</div>
+                <div class="pcard-price-label" style="text-align:right">ago + set</div>
+              </div>
+            </div>
+            <div class="pcard-top-row2">Villa Park<br>Zambujeira</div>
+          </div>
+          <div class="pcard-divider"></div>
+          <div class="pcard-rows">
+            <div class="pcard-row">
+              <span class="pcard-row-label">Adulto / dia</span>
+              <span class="pcard-row-val">8,80 € (ago) · 6,95 € (set)</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Criança / dia</span>
+              <span class="pcard-row-val">4,95 € (ago) · 4,10 € (set)</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Piscina</span>
+              <span class="pcard-row-val">Incluída + jacuzzi</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Longa duração</span>
+              <span class="pcard-row-val">Não</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Caravana vazia</span>
+              <span class="pcard-row-val">+100% em agosto</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Reserva</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+          </div>
+          <div class="pcard-footer">
+            <a class="pcard-lnk" href="https://www.campingzambujeira.com" target="_blank">Site</a>
+            <a class="pcard-lnk" href="https://www.google.com/maps/search/?api=1&query=37.525589,-8.775672" target="_blank">Google Maps</a>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-top">
+            <div class="pcard-top-row1">
+              <div class="pcard-rank"><span class="pcard-rank-num">02</span></div>
+              <div>
+                <div class="pcard-price">973,90 €</div>
+                <div class="pcard-price-label" style="text-align:right">ago + set</div>
+              </div>
+            </div>
+            <div class="pcard-top-row2">Parque de Campismo<br>de Porto Covo</div>
+          </div>
+          <div class="pcard-divider"></div>
+          <div class="pcard-rows">
+            <div class="pcard-row">
+              <span class="pcard-row-label">Adulto / dia</span>
+              <span class="pcard-row-val">6,00 € (ago) · 5,60 € (set)</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Criança / dia</span>
+              <span class="pcard-row-val">4,10 €</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Piscina</span>
+              <span class="pcard-row-val">Paga</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Longa duração</span>
+              <span class="pcard-row-val">Não</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Caravana vazia</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Reserva</span>
+              <span class="pcard-row-val">Ordem de chegada</span>
+            </div>
+          </div>
+          <div class="pcard-footer">
+            <a class="pcard-lnk" href="https://www.campingportocovo.pt" target="_blank">Site</a>
+            <a class="pcard-lnk" href="https://www.google.com/maps/search/?api=1&query=37.852778,-8.787539" target="_blank">Google Maps</a>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-top">
+            <div class="pcard-top-row1">
+              <div class="pcard-rank"><span class="pcard-rank-num outline">—</span> Resposta parcial</div>
+            </div>
+            <div class="pcard-top-row2">Costa do Vizir<br>Beach Village</div>
+          </div>
+          <div class="pcard-divider"></div>
+          <div class="pcard-rows">
+            <div class="pcard-row">
+              <span class="pcard-row-label">Preço total</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Adulto / dia</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Criança / dia</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Piscina</span>
+              <span class="pcard-row-val">Incluída</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Longa duração</span>
+              <span class="pcard-row-val">Não</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Caravana vazia</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+          </div>
+          <div class="pcard-note">Apenas confirmaram que não existe tarifa de longa duração. Aguarda tabela completa.</div>
+          <div class="pcard-footer">
+            <a class="pcard-lnk" href="https://costadovizir.com" target="_blank">Site</a>
+            <a class="pcard-lnk" href="https://www.google.com/maps/search/?api=1&query=Costa+do+Vizir+Beach+Village+Porto+Covo" target="_blank">Google Maps</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="context">
+    <div class="wrap">
+      <div class="context-label">Cenário</div>
+      <div class="context-grid">
+        <div class="ctx">
+          <div class="ctx-title">Período</div>
+          <div class="ctx-body">Agosto + Setembro 2026<br>~2 meses</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-title">Ocupação</div>
+          <div class="ctx-body">2 adultos + 2 crianças<br>Presença variável</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-title">Condições</div>
+          <div class="ctx-body">Com eletricidade<br>Sem carro na parcela</div>
+        </div>
+        <div class="ctx">
+          <div class="ctx-title">Questões enviadas</div>
+          <div class="ctx-body">Desconto longa duração, caravana vazia, disponibilidade</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <p>Costa Alentejana 2026</p>
+
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
