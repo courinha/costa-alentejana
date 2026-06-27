@@ -13,6 +13,7 @@
       --text:    #1c1a17;
       --muted:   #8a8278;
       --accent:  #7a6248;
+      --clay:    #c0795a;
       --highlight: #f2ede4;
     }
 
@@ -35,6 +36,12 @@
 
     .wrap {
       max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .wrap-wide {
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 32px;
     }
@@ -103,6 +110,10 @@
       padding: 48px 0;
     }
 
+    .table-scroll {
+      position: relative;
+    }
+
     .table-wrap {
       width: 100%;
       overflow-x: auto;
@@ -110,6 +121,56 @@
       border: 1px solid var(--border);
       border-radius: 6px;
       background: var(--white);
+    }
+
+    /* gradiente que sugere mais conteúdo à direita */
+    .table-scroll::after {
+      content: '';
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      bottom: 1px;
+      width: 48px;
+      border-radius: 0 6px 6px 0;
+      background: linear-gradient(to right, rgba(255,255,255,0), var(--white));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .table-scroll.can-scroll::after {
+      opacity: 1;
+    }
+
+    /* seta pulsante que sugere arrastar */
+    .scroll-hint {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--clay, #c0795a);
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      line-height: 1;
+      pointer-events: none;
+      z-index: 3;
+      box-shadow: 0 2px 10px rgba(0,0,0,.18);
+      animation: hintPulse 1.4s ease-in-out infinite;
+    }
+
+    .table-scroll.show-hint .scroll-hint {
+      display: flex;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { transform: translateY(-50%) translateX(0); opacity: .9; }
+      50%      { transform: translateY(-50%) translateX(-6px); opacity: 1; }
     }
 
     .table-note {
@@ -127,8 +188,8 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 640px;
-      font-size: .875rem;
+      min-width: 0;
+      font-size: .86rem;
     }
 
     thead tr {
@@ -136,11 +197,11 @@
     }
 
     th {
-      padding: 12px 16px;
-      font-size: .68rem;
+      padding: 12px 14px;
+      font-size: .67rem;
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: .09em;
+      letter-spacing: .08em;
       color: var(--muted);
       text-align: center;
       white-space: normal;
@@ -148,10 +209,10 @@
       line-height: 1.3;
     }
 
-    th:first-child { text-align: left; }
+    th:first-child { text-align: left; padding-left: 20px; }
 
     td {
-      padding: 14px 16px;
+      padding: 14px 14px;
       color: var(--muted);
       border-bottom: 1px solid var(--highlight);
       vertical-align: middle;
@@ -159,7 +220,7 @@
       text-align: center;
     }
 
-    td:first-child { text-align: left; }
+    td:first-child { text-align: left; padding-left: 20px; }
 
     tr:last-child td { border-bottom: none; }
 
@@ -234,21 +295,22 @@
 
     .dot-ok::before   { background: #8aaa88; }
     .dot-wait::before { background: #c8b89a; }
+    .dot-info::before { background: #a89878; }
 
     /* link buttons */
-    .links { display: flex; gap: 6px; }
+    .links { display: flex; gap: 5px; justify-content: center; }
 
     .lnk {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       height: 26px;
-      padding: 0 9px;
+      padding: 0 8px;
       border: 1px solid var(--border);
       border-radius: 4px;
-      font-size: .68rem;
+      font-size: .66rem;
       font-weight: 500;
-      letter-spacing: .04em;
+      letter-spacing: .03em;
       color: var(--muted);
       text-decoration: none;
       background: var(--white);
@@ -274,9 +336,15 @@
     }
 
     .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 16px;
+    }
+
+    .cards-grid .pcard {
+      flex: 0 1 calc((100% - 32px) / 3);
+      max-width: calc((100% - 32px) / 3);
     }
 
     .pcard {
@@ -502,12 +570,21 @@
     .footer-inner a:hover { color: var(--accent); }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .cards-grid .pcard {
+        flex: 0 1 calc((100% - 16px) / 2);
+        max-width: calc((100% - 16px) / 2);
+      }
+    }
+
     @media (max-width: 768px) {
       .wrap { padding: 0 24px; }
+      .wrap-wide { padding: 0 24px; }
     }
 
     @media (max-width: 640px) {
       .wrap { padding: 0 20px; }
+      .wrap-wide { padding: 0 20px; }
 
       header { padding: 48px 0 0; }
 
@@ -532,6 +609,11 @@
       .pcard { padding: 22px; }
 
       .cards-grid { gap: 14px; }
+
+      .cards-grid .pcard {
+        flex: 0 1 100%;
+        max-width: 100%;
+      }
 
       .context-grid { gap: 28px; }
 
@@ -563,7 +645,7 @@
           <div class="meta-label">Melhor preço</div>
         </div>
         <div class="meta-item">
-          <div class="meta-num">3/7</div>
+          <div class="meta-num">4/7</div>
           <div class="meta-label">Responderam</div>
         </div>
       </div>
@@ -572,7 +654,9 @@
 
   <!-- TABLE -->
   <section class="section">
-    <div class="wrap">
+    <div class="wrap-wide">
+      <div class="table-scroll">
+      <div class="scroll-hint">→</div>
       <div class="table-wrap">
         <table>
           <thead>
@@ -592,7 +676,7 @@
             <tr class="best">
               <td>
                 <div class="park-name">
-                  <span class="rank">01</span>
+                  <span class="rank">1</span>
                   Villa Park Zambujeira
                 </div>
               </td>
@@ -613,7 +697,7 @@
             <tr>
               <td>
                 <div class="park-name">
-                  <span class="rank">02</span>
+                  <span class="rank">2</span>
                   Porto Covo
                 </div>
               </td>
@@ -632,34 +716,50 @@
             </tr>
 
             <tr>
+              <td><div class="park-name"><span class="rank">3</span>Ilha do Pessegueiro Camping</div></td>
+              <td><span class="dot dot-info">Tabela pública</span></td>
+              <td><span class="price">1.395 €*</span></td>
+              <td>incluído*</td>
+              <td>3,50 €</td>
+              <td>A confirmar</td>
+              <td>A confirmar</td>
               <td>
-                <div class="park-name">
-                  <span class="rank-dash">—</span>
-                  Costa do Vizir Beach Village
+                <div class="links">
+                  <a class="lnk" href="https://www.ilhadopessegueiro.com" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Parque+Campismo+Ilha+do+Pessegueiro+Porto+Covo" target="_blank" title="Google Maps">Maps</a>
                 </div>
               </td>
+            </tr>
+
+
+            <tr>
+              <td><div class="park-name"><span class="rank">4</span>Orbitur Sitava Milfontes</div></td>
               <td><span class="dot dot-ok">Respondido</span></td>
-              <td>A confirmar</td>
-              <td>A confirmar</td>
-              <td>A confirmar</td>
+              <td><span class="price">~2.371 €*</span></td>
+              <td>incluído*</td>
+              <td>incluído*</td>
+              <td>Incluída</td>
+              <td>Não</td>
+              <td>
+                <div class="links">
+                  <a class="lnk" href="https://www.orbitur.pt/destinos/alentejo/orbitur-sitava-milfontes/" target="_blank" title="Website">Site</a>
+                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Orbitur+Sitava+Milfontes" target="_blank" title="Google Maps">Maps</a>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td><div class="park-name"><span class="rank">5</span>Costa do Vizir Beach Village</div></td>
+              <td><span class="dot dot-ok">Respondido</span></td>
+              <td><span class="price">2.733 €*</span></td>
+              <td>incluído*</td>
+              <td>incluído*</td>
               <td>Incluída</td>
               <td>Não</td>
               <td>
                 <div class="links">
                   <a class="lnk" href="https://costadovizir.com" target="_blank" title="Website">Site</a>
                   <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Costa+do+Vizir+Beach+Village+Porto+Covo" target="_blank" title="Google Maps">Maps</a>
-                </div>
-              </td>
-            </tr>
-
-            <tr class="dim">
-              <td><div class="park-name"><span class="rank-dash">—</span>Ilha do Pessegueiro Camping</div></td>
-              <td><span class="dot dot-wait">Pendente</span></td>
-              <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
-              <td>
-                <div class="links">
-                  <a class="lnk" href="https://www.google.com/search?q=Parque+Campismo+Ilha+do+Pessegueiro+Porto+Covo" target="_blank" title="Website">Site</a>
-                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Parque+Campismo+Ilha+do+Pessegueiro+Porto+Covo" target="_blank" title="Google Maps">Maps</a>
                 </div>
               </td>
             </tr>
@@ -688,35 +788,26 @@
               </td>
             </tr>
 
-            <tr class="dim">
-              <td><div class="park-name"><span class="rank-dash">—</span>Orbitur Sitava Milfontes</div></td>
-              <td><span class="dot dot-wait">Pendente</span></td>
-              <td>—</td><td>—</td><td>—</td><td>Incluída</td><td>—</td>
-              <td>
-                <div class="links">
-                  <a class="lnk" href="https://www.orbitur.pt/destinos/alentejo/orbitur-sitava-milfontes/" target="_blank" title="Website">Site</a>
-                  <a class="lnk" href="https://www.google.com/maps/search/?api=1&query=Orbitur+Sitava+Milfontes" target="_blank" title="Google Maps">Maps</a>
-                </div>
-              </td>
-            </tr>
+
 
           </tbody>
         </table>
       </div>
-      <p class="table-note">Preços indicativos com base na tabela de preços de cada parque. O valor de caravana + eletricidade não inclui a tarifa diária por adulto e criança. Valores podem variar consoante a época e condições específicas.</p>
+      </div>
+      <p class="table-note">Preços indicativos para ~62 dias (agosto + setembro), com base na tabela de cada parque. Nos parques sem asterisco (Villa Park, Porto Covo) o valor cobre apenas caravana + eletricidade — a tarifa diária por pessoa paga-se à parte. Nos parques com asterisco (*) o pack já inclui as pessoas, pelo que os valores não são diretamente comparáveis. Sujeito a variação consoante época e condições.</p>
     </div>
   </section>
 
   <!-- PARK CARDS -->
   <section class="cards-section">
     <div class="wrap">
-      <div class="cards-label">Detalhe — parques respondidos</div>
+      <div class="cards-label">Detalhe — parques com preços conhecidos</div>
       <div class="cards-grid">
 
         <div class="pcard pcard-best">
           <div class="pcard-top">
             <div class="pcard-top-row1">
-              <div class="pcard-rank"><span class="pcard-rank-num">01</span> Melhor preço</div>
+              <div class="pcard-rank"><span class="pcard-rank-num">1</span> Melhor preço</div>
               <div>
                 <div class="pcard-price">792,35 €</div>
                 <div class="pcard-price-label" style="text-align:right">ago + set</div>
@@ -744,13 +835,14 @@
             </div>
             <div class="pcard-row">
               <span class="pcard-row-label">Caravana vazia</span>
-              <span class="pcard-row-val">+100% em agosto</span>
+              <span class="pcard-row-val">Só tarifa da caravana</span>
             </div>
             <div class="pcard-row">
               <span class="pcard-row-label">Reserva</span>
-              <span class="pcard-row-val">A confirmar</span>
+              <span class="pcard-row-val">Ordem de chegada</span>
             </div>
           </div>
+          <div class="pcard-note">Quando os ocupantes saem, dá-se baixa na receção e fica a cobrar apenas a caravana. Em época alta convém contactar 1-2 dias antes da chegada.</div>
           <div class="pcard-footer">
             <a class="pcard-lnk" href="https://www.campingzambujeira.com" target="_blank">Site</a>
             <a class="pcard-lnk" href="https://www.google.com/maps/search/?api=1&query=37.525589,-8.775672" target="_blank">Google Maps</a>
@@ -760,7 +852,7 @@
         <div class="pcard">
           <div class="pcard-top">
             <div class="pcard-top-row1">
-              <div class="pcard-rank"><span class="pcard-rank-num">02</span></div>
+              <div class="pcard-rank"><span class="pcard-rank-num">2</span></div>
               <div>
                 <div class="pcard-price">973,90 €</div>
                 <div class="pcard-price-label" style="text-align:right">ago + set</div>
@@ -804,23 +896,117 @@
         <div class="pcard">
           <div class="pcard-top">
             <div class="pcard-top-row1">
-              <div class="pcard-rank"><span class="pcard-rank-num outline">—</span> Resposta parcial</div>
+              <div class="pcard-rank"><span class="pcard-rank-num">3</span></div>
+              <div>
+                <div class="pcard-price">1.395 €</div>
+                <div class="pcard-price-label" style="text-align:right">ago + set*</div>
+              </div>
+            </div>
+            <div class="pcard-top-row2">Ilha do Pessegueiro<br>Camping</div>
+          </div>
+          <div class="pcard-divider"></div>
+          <div class="pcard-rows">
+            <div class="pcard-row">
+              <span class="pcard-row-label">Pack diário</span>
+              <span class="pcard-row-val">22,50 €</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Inclui no pack</span>
+              <span class="pcard-row-val">Máx. 3 adultos + luz</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Criança / dia</span>
+              <span class="pcard-row-val">3,50 € (5-10 anos)</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Piscina</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Longa duração</span>
+              <span class="pcard-row-val">A confirmar</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Reserva</span>
+              <span class="pcard-row-val">Ordem de chegada</span>
+            </div>
+          </div>
+          <div class="pcard-note">Valores da tabela pública (email por confirmar). Pack caravana inclui até 3 adultos + eletricidade.</div>
+          <div class="pcard-footer">
+            <a class="pcard-lnk" href="https://www.ilhadopessegueiro.com" target="_blank">Site</a>
+            <a class="pcard-lnk" href="https://www.google.com/maps/search/?api=1&query=Parque+Campismo+Ilha+do+Pessegueiro+Porto+Covo" target="_blank">Google Maps</a>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-top">
+            <div class="pcard-top-row1">
+              <div class="pcard-rank"><span class="pcard-rank-num">4</span></div>
+              <div>
+                <div class="pcard-price">~2.371 €</div>
+                <div class="pcard-price-label" style="text-align:right">ago + set*</div>
+              </div>
+            </div>
+            <div class="pcard-top-row2">Orbitur Sitava<br>Milfontes</div>
+          </div>
+          <div class="pcard-divider"></div>
+          <div class="pcard-rows">
+            <div class="pcard-row">
+              <span class="pcard-row-label">Pack diário</span>
+              <span class="pcard-row-val">38,25 € (época alta)</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Inclui no pack</span>
+              <span class="pcard-row-val">2 adultos + carro + equip.</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Piscina</span>
+              <span class="pcard-row-val">Incluída</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Longa duração</span>
+              <span class="pcard-row-val">Só 4 ou 6 meses</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Caravana vazia</span>
+              <span class="pcard-row-val">Paga pack, sem luz</span>
+            </div>
+            <div class="pcard-row">
+              <span class="pcard-row-label">Reserva</span>
+              <span class="pcard-row-val">Online (eSeason)</span>
+            </div>
+          </div>
+          <div class="pcard-note">Estimativa para ~62 dias. Pack inclui 2 adultos + carro + equipamento, ao contrário dos outros parques. Valores confirmados só até 27/08. Para 2 meses aplica-se tabela diária.</div>
+          <div class="pcard-footer">
+            <a class="pcard-lnk" href="https://www.orbitur.pt/destinos/alentejo/orbitur-sitava-milfontes/" target="_blank">Site</a>
+            <a class="pcard-lnk" href="https://www.google.com/maps/search/?api=1&query=Orbitur+Sitava+Milfontes" target="_blank">Google Maps</a>
+          </div>
+        </div>
+
+        <div class="pcard">
+          <div class="pcard-top">
+            <div class="pcard-top-row1">
+              <div class="pcard-rank"><span class="pcard-rank-num">5</span></div>
+              <div>
+                <div class="pcard-price">2.733 €</div>
+                <div class="pcard-price-label" style="text-align:right">ago + set*</div>
+              </div>
             </div>
             <div class="pcard-top-row2">Costa do Vizir<br>Beach Village</div>
           </div>
           <div class="pcard-divider"></div>
           <div class="pcard-rows">
             <div class="pcard-row">
-              <span class="pcard-row-label">Preço total</span>
-              <span class="pcard-row-val">A confirmar</span>
+              <span class="pcard-row-label">Por noite</span>
+              <span class="pcard-row-val">47,95 € (57 noites)</span>
             </div>
             <div class="pcard-row">
-              <span class="pcard-row-label">Adulto / dia</span>
-              <span class="pcard-row-val">A confirmar</span>
+              <span class="pcard-row-label">Parcela</span>
+              <span class="pcard-row-val">3 flores Plus · 80 m²</span>
             </div>
             <div class="pcard-row">
-              <span class="pcard-row-label">Criança / dia</span>
-              <span class="pcard-row-val">A confirmar</span>
+              <span class="pcard-row-label">Inclui no pack</span>
+              <span class="pcard-row-val">2 adultos</span>
             </div>
             <div class="pcard-row">
               <span class="pcard-row-label">Piscina</span>
@@ -831,11 +1017,11 @@
               <span class="pcard-row-val">Não</span>
             </div>
             <div class="pcard-row">
-              <span class="pcard-row-label">Caravana vazia</span>
-              <span class="pcard-row-val">A confirmar</span>
+              <span class="pcard-row-label">Reserva</span>
+              <span class="pcard-row-val">Online</span>
             </div>
           </div>
-          <div class="pcard-note">Apenas confirmaram que não existe tarifa de longa duração. Aguarda tabela completa.</div>
+          <div class="pcard-note">Simulação online para 02/08–28/09 (57 noites). Pack inclui 2 adultos, tal como o Orbitur.</div>
           <div class="pcard-footer">
             <a class="pcard-lnk" href="https://costadovizir.com" target="_blank">Site</a>
             <a class="pcard-lnk" href="https://www.google.com/maps/search/?api=1&query=Costa+do+Vizir+Beach+Village+Porto+Covo" target="_blank">Google Maps</a>
@@ -881,5 +1067,53 @@
     </div>
   </footer>
 
+  <script>
+    (function () {
+      var scroll = document.querySelector('.table-scroll');
+      var wrap = scroll ? scroll.querySelector('.table-wrap') : null;
+      if (!scroll || !wrap) return;
+
+      var hinted = false;
+
+      function hasOverflow() {
+        return wrap.scrollWidth > wrap.clientWidth + 1;
+      }
+
+      function update() {
+        var overflow = hasOverflow();
+        var atEnd = wrap.scrollLeft + wrap.clientWidth >= wrap.scrollWidth - 1;
+
+        // gradiente: enquanto houver mais para a direita
+        if (overflow && !atEnd) {
+          scroll.classList.add('can-scroll');
+        } else {
+          scroll.classList.remove('can-scroll');
+        }
+
+        // seta: só até o utilizador interagir pela primeira vez
+        if (overflow && !hinted) {
+          scroll.classList.add('show-hint');
+        } else {
+          scroll.classList.remove('show-hint');
+        }
+      }
+
+      function dismissHint() {
+        hinted = true;
+        scroll.classList.remove('show-hint');
+      }
+
+      wrap.addEventListener('scroll', function () {
+        dismissHint();
+        update();
+      }, { passive: true });
+
+      // também desaparece ao tocar/arrastar mesmo sem scroll efetivo
+      wrap.addEventListener('touchstart', dismissHint, { passive: true });
+
+      window.addEventListener('resize', update);
+      update();
+    })();
+  </script>
 </body>
 </html>
