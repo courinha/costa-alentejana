@@ -185,6 +185,55 @@
       margin-right: auto;
     }
 
+    /* legenda estruturada */
+    .table-legend {
+      margin-top: 24px;
+      width: 100%;
+    }
+
+    .legend-items {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px 48px;
+      margin-bottom: 16px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-size: .8rem;
+      color: var(--text);
+      flex: 0 1 440px;
+      text-align: left;
+    }
+
+    .legend-mark {
+      flex-shrink: 0;
+      width: 26px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: .9rem;
+    }
+
+    .legend-item span:last-child {
+      color: var(--muted);
+    }
+
+    .legend-disclaimer {
+      text-align: center;
+      font-size: .7rem;
+      color: var(--muted);
+      font-style: italic;
+      line-height: 1.5;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -617,7 +666,8 @@
 
       .context-grid { gap: 28px; }
 
-      .table-note { font-size: .7rem; }
+      .legend-item { font-size: .76rem; flex-basis: 100%; }
+      .legend-disclaimer { font-size: .68rem; }
 
       th:nth-child(4),
       td:nth-child(4),
@@ -794,7 +844,19 @@
         </table>
       </div>
       </div>
-      <p class="table-note">Preços indicativos para ~62 dias (agosto + setembro), com base na tabela de cada parque. Nos parques sem asterisco (Villa Park, Porto Covo) o valor cobre apenas caravana + eletricidade — a tarifa diária por pessoa paga-se à parte. Nos parques com asterisco (*) o pack já inclui as pessoas, pelo que os valores não são diretamente comparáveis. Sujeito a variação consoante época e condições.</p>
+      <div class="table-legend">
+        <div class="legend-items">
+          <div class="legend-item">
+            <span class="legend-mark">—</span>
+            <span>Sem asterisco: o valor cobre apenas caravana + eletricidade. A tarifa diária por pessoa paga-se à parte (Villa Park, Porto Covo).</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-mark">*</span>
+            <span>Com asterisco: o pack já inclui as pessoas, pelo que os valores não são diretamente comparáveis.</span>
+          </div>
+        </div>
+        <p class="legend-disclaimer">Preços indicativos para ~62 dias (agosto + setembro), com base na tabela de cada parque. Sujeito a variação consoante época e condições.</p>
+      </div>
     </div>
   </section>
 
